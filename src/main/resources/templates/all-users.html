@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Users</title>
+</head>
+<body>
+    <h1>All Users</h1>
+
+    <a th:href="@{|/users/create|}">Create User</a>
+
+    <table class="table" border="1">
+        <thead>
+        <tr>
+            <th scope="col">No .</th>
+            <th scope="col">Id </th>
+            <th scope="col">Full name </th>
+            <th scope="col">E-mail </th>
+            <th scope="col">Role </th>
+            <th scope="col">Stuff list </th>
+            <th scope="col" colspan="2">Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user, temp : ${users}">
+            <th th:scope="row" th:text="${temp.index + 1}"/>
+            <td th:text="${user.id}"/>
+            <td th:text="${user.getFullName()}"/>
+            <td th:text="${user.email}"/>
+            <td th:text="${user.role.getName()}"/>
+            <td th:text="${user.stuffList}"/>
+
+            <td>
+                <a th:href="@{|/users/read/${user.id}|}">Info</a>
+                <a th:href="@{|/users/update/${user.id}|}">Edit</a>
+                <a th:href="@{|/users/delete/${user.id}|}">Delete</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{|/home|}">Back to home page</a>
+
+</body>
+</html>

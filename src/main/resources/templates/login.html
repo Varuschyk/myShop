@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <form name="login" th:action="@{/auth/login}" method="post">
+        <div th:if="${param.error}" style="color:red">Wrong E-mail or password</div>
+        <div>
+            <label for="email">E-mail: </label>
+            <input id="email" type="text" name="username">
+        </div>
+        <br>
+        <div>
+            <label for="password">Password: </label>
+            <input id="password" type="password" name="password">
+        </div>
+
+        <button type="submit">Sign in</button>
+    </form>
+
+    <div>
+        Don't have account?
+        <a th:href="@{/auth/register}">Register!</a>
+    </div>
+
+</body>
+</html>

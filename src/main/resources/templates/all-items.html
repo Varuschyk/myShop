@@ -1,0 +1,45 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Items</title>
+</head>
+<body>
+    <h1>All Items of online shop</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>No. </th>
+            <th>Id </th>
+            <th>Name </th>
+            <th>Price </th>
+            <th>Creation time </th>
+            <th>Operations</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="item, temp : ${items}">
+            <th th:scope="row" th:text="${temp.index + 1}"/>
+            <td th:text="${item.id}"/>
+            <td th:text="${item.name}"/>
+            <td th:text="${item.price}"/>
+            <td th:text="${item.createdAt}"/>
+
+            <td>
+                <a th:href="@{|/shopping_items/update/${item.id}|}">Edit</a>
+                <a th:href="@{|/shopping_items/delete/${item.id}|}">Delete</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+
+
+</body>
+</html>

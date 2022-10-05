@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update User</title>
+</head>
+<body>
+    <h1>Update user</h1>
+    <br>
+
+        <form th:action="@{|/users/update/*{id}|}" th:object="${user}" method="post">
+            <div>
+                <label for="id">Id: </label>
+                <input id="id" type="text" th:value="*{id}" disabled>
+            </div>
+            <div>
+                <label for="name">Name: </label>
+                <input id="name" type="text" th:field="*{name}">
+                <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+            </div>
+            <div>
+                <label for="surname">Surname: </label>
+                <input id="surname" type="text" th:field="*{surname}">
+                <small style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></small>
+            </div>
+            <div>
+                <label for="email">E-mail: </label>
+                <input id="email" type="email" th:field="*{email}">
+                <small style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+            </div>
+            <div>
+                <label for="newPassword">New password: </label>
+                <input id="newPassword" type="password" th:field="*{password}">
+                <small style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+            </div>
+            <div>
+                <label for="role">Role: </label>
+                <select th:field="*{role}" id="role" disabled>
+                    <option th:each="role : ${roles}"
+                            th:value="${role.getId()}" th:text="${role.getName()}"
+                            th:selected="${user.getRole().getId() == role.getId()}">
+                    </option>
+                </select>
+            </div>
+            <div>
+                <input type="submit" value="Update"/>
+                <input type="reset" value="Clear"/>
+            </div>
+        </form>
+
+    <a th:href="@{|/users/all|}">Back to list</a>
+
+</body>
+</html>

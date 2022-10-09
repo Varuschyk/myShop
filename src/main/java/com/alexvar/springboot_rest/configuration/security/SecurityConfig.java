@@ -1,8 +1,6 @@
 package com.alexvar.springboot_rest.configuration.security;
 
-import com.alexvar.springboot_rest.model.Permission;
 import com.alexvar.springboot_rest.repositories.UserRepository;
-import com.alexvar.springboot_rest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.security.Principal;
 
 @Configuration
 @EnableWebSecurity
@@ -33,8 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         this.userRepository = userRepository;
     }
 
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -44,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin().loginPage("/auth/login").permitAll()
+                .formLogin().loginPage("/auth/login")//.permitAll()
                 .loginProcessingUrl("/auth/login")
                 .defaultSuccessUrl("/home", true)
                 .and()
@@ -54,9 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .clearAuthentication(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/auth/login");
-
-
     }
+
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

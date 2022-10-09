@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Welcome to the shop</h1>
-    <p style="color: dodgerblue">We glad to see you!</p>
+    <p style="color:dodgerblue">We glad to see you, <p th:text="${#authentication.name}"></p></p>
     <br>
     <form th:action="@{|/auth/logout|}" method="post" name="logout">
         <button type="submit">Logout</button>
@@ -15,7 +15,7 @@
     <br>
     <p style="color: darkmagenta">Menu</p>
     <div>
-        <a th:href="@{|/users/all|}">Go to list</a>
+        <a th:href="@{|/users/all|}">Go to list of users</a>
     </div>
 
 </body>

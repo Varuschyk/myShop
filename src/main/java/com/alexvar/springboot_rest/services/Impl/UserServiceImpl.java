@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService{
         if(userRepository.findUserByEmail(user.getEmail()).isPresent()) {
             throw new EntityNotFoundException("User already exists!");
         }
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRole(Role.USER);
             return userRepository.save(user);
     }

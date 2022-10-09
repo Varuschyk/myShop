@@ -4,6 +4,9 @@ import com.alexvar.springboot_rest.model.Role;
 import com.alexvar.springboot_rest.model.User;
 import com.alexvar.springboot_rest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,23 +21,26 @@ public class UserController {
     private final UserService userService;
 
     @Autowired
-    private UserController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/all")
+    @PreAuthorize("hasAuthority('developer:write')")
     public String getAll(Model model){
         model.addAttribute("users", userService.getAll());
         return "all-users";
     }
 
     @GetMapping("/create")
+    @PreAuthorize("hasAuthority('developer:write')")
     public String create(Model model){
         model.addAttribute("user", new User());
         return "user-create";
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('developer:write')")
     public String create(@ModelAttribute("user") @Valid User user, BindingResult result){
         if(result.hasErrors()){
             return "user-create";
@@ -44,12 +50,14 @@ public class UserController {
     }
 
     @GetMapping("/read/{id}")
+    @PreAuthorize("hasAuthority('developer:read')")
     public String read(Model model, @PathVariable(value="id") long id){
         model.addAttribute("user", userService.readById(id));
         return "user-info";
     }
 
     @GetMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('developer:write')")
     public String update(@PathVariable(value="id") long id, Model model){
         User oldUser = userService.readById(id);
         model.addAttribute("user", oldUser);
@@ -58,6 +66,7 @@ public class UserController {
     }
 
     @PostMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('developer:write')")
     public String update(@ModelAttribute(value = "user") @Valid User user, BindingResult result,
                          @PathVariable(value="id") long id, Model model){
         User oldUser = userService.readById(id);
@@ -71,6 +80,7 @@ public class UserController {
     }
 
     @GetMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('developer:write')")
     public String delete(@PathVariable(value="id") long id){
         userService.delete(id);
         return "redirect:/users/all";

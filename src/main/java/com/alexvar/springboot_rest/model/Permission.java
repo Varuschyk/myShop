@@ -2,7 +2,7 @@ package com.alexvar.springboot_rest.model;
 
 public enum Permission {
     DEVELOPERS_READ("developer:read"),
-    DEVELOPERS_WRITE("developers:write");
+    DEVELOPERS_WRITE("developer:write");
 
     private final String permission;
 

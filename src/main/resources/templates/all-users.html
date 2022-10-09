@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -33,11 +33,11 @@
             <td th:text="${user.role}"/>
             <td th:text="${user.stuffList}"/>
 
-            <td>
-                <a th:href="@{|/users/read/${user.id}|}">Info</a>
-                <a th:href="@{|/users/update/${user.id}|}">Edit</a>
-                <a th:href="@{|/users/delete/${user.id}|}">Delete</a>
-            </td>
+                <td>
+                    <a th:href="@{|/users/read/${user.id}|}">Info</a>
+                    <a th:href="@{|/users/update/${user.id}|}">Edit</a>
+                    <a th:href="@{|/users/delete/${user.id}|}">Delete</a>
+                </td>
 
         </tr>
         </tbody>

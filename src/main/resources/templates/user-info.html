@@ -23,12 +23,16 @@
             <td th:text="${user.surname}"></td>
         </tr>
         <tr>
+            <td>E-mail: </td>
+            <td th:text="${user.email}"></td>
+        </tr>
+        <tr>
             <td>Password: </td>
             <td th:type="password" th:text="${user.password}"></td>
         </tr>
         <tr>
             <td>Role: </td>
-            <td th:text="${user.role.getName()}"></td>
+            <td th:text="${user.role}"></td>
         </tr>
     </table>
 

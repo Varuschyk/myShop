@@ -31,14 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http
                 .authorizeRequests()
                 .antMatchers("/auth/login", "/auth/registration").permitAll()
-                .antMatchers("/**").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .formLogin().loginPage("/auth/login").permitAll()
                 .loginProcessingUrl("/auth/login")
                 .defaultSuccessUrl("/home", true)
                 .and()
-                .logout().permitAll();
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", "POST"))
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/auth/login");
 
 
     }

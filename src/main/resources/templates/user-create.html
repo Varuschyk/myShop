@@ -30,7 +30,7 @@
     <div>
         <label for="email">E-mail: </label>
         <input id="email" type="email" th:field="*{email}"/>
-        <small th:if="${#fields.hasErrors('email')}" th:errors="*{errors}"></small>
+        <small style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
     </div>
     <div>
         <input type="submit" value="Create"/>

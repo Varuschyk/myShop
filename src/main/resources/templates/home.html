@@ -8,7 +8,9 @@
     <h1>Welcome to the shop</h1>
     <p style="color: dodgerblue">We glad to see you!</p>
     <br>
-    <a th:href="@{/logout}" class="ui-button">Logout</a>
+    <form th:action="@{|/auth/logout|}" method="post" name="logout">
+        <button type="submit">Logout</button>
+    </form>
     <br>
     <br>
     <p style="color: darkmagenta">Menu</p>

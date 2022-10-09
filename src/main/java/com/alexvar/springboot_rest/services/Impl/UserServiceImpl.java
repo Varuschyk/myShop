@@ -2,10 +2,10 @@ package com.alexvar.springboot_rest.services.Impl;
 
 import com.alexvar.springboot_rest.model.Role;
 import com.alexvar.springboot_rest.model.User;
-//import com.alexvar.springboot_rest.repositories.RoleRepository;
 import com.alexvar.springboot_rest.repositories.UserRepository;
 import com.alexvar.springboot_rest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -15,10 +15,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository){
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -40,8 +42,7 @@ public class UserServiceImpl implements UserService{
         User newEmp = userRepository.findById(user.getId()).get();
         newEmp.setName(user.getName());
         newEmp.setSurname(user.getSurname());
-        newEmp.setPassword(user.getPassword());
-        newEmp.setRole(user.getRole());
+        newEmp.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(newEmp);
     }

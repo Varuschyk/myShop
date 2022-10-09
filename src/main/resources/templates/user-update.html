@@ -28,8 +28,8 @@
             </div>
             <div>
                 <label for="email">E-mail: </label>
-                <input id="email" type="email" th:field="*{email}">
-                <small style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                <input id="email" type="email" th:field="*{email}" disabled>
+                <small style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}" ></small>
             </div>
             <div>
                 <label for="newPassword">New password: </label>
@@ -40,8 +40,8 @@
                 <label for="role">Role: </label>
                 <select th:field="*{role}" id="role" disabled>
                     <option th:each="role : ${roles}"
-                            th:value="${role.getId()}" th:text="${role.getName()}"
-                            th:selected="${user.getRole().getId() == role.getId()}">
+                            th:value="${role}" th:text="${role}"
+                            th:selected="${user.getRole() == role}">
                     </option>
                 </select>
             </div>

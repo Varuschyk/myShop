@@ -22,7 +22,7 @@ public class AuthController {
     }
 
     @GetMapping("/login")
-    public String login(Model model){
+    public String login(){
         return "login";
     }
 
@@ -32,10 +32,11 @@ public class AuthController {
         return "register";
     }
 
-
     @PostMapping("/register")
     public String register(@ModelAttribute("user") User user){
         userService.create(user);
         return "redirect:/auth/login";
     }
+
+
 }

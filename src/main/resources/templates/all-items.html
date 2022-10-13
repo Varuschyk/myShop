@@ -31,7 +31,9 @@
             <td th:text="${item.createdAt}"/>
 
             <td>
-                <a th:href="@{|/users/{id}/add(id = ${user.id})|}">Add to cart</a>
+                <form th:action="@{/users/{id}/add (id=${#request.userPrincipal.principal.user.id})}">
+                    <button type="submit" name="item_id" th:value="${item.getId()}">Add to cart</button>
+                </form>
                 <a th:href="@{|/shopping_items/update/${item.id}|}">Edit</a>
                 <a th:href="@{|/shopping_items/delete/${item.id}|}">Delete</a>
             </td>

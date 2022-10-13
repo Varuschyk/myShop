@@ -40,7 +40,7 @@
     <h3>Items in the store:</h3>
         <div>
             <form th:action="@{/users/{id}/add(id = ${user.id})}" method="get">
-                <select class="form-control" name="item_id" id="items">
+                <select class="form-control" name="item_id">
                     <option>Select item...</option>
                     <option th:each="item : ${items}" th:value="${item.id}"
                             th:text="${item.name}"></option>

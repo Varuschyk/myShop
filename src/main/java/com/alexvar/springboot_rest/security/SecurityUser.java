@@ -5,42 +5,40 @@ import com.alexvar.springboot_rest.repositories.UserRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+
 
 @Data
 public class SecurityUser implements UserDetails {
-    private final String username;
-    private final String password;
-    private final List<SimpleGrantedAuthority> authorities;
-    private final boolean isActive;
+
+    private final User user;
 
     @Autowired
     private UserRepository userRepository;
 
-    public SecurityUser(String username, String password, List<SimpleGrantedAuthority> authorities, boolean isActive) {
-        this.username = username;
-        this.password = password;
-        this.authorities = authorities;
-        this.isActive = isActive;
+    public SecurityUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return user.getRole().getAuthorities();
     }
 
     @Override
     public String getPassword() {
-        return password;
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return user.getEmail();
     }
 
     @Override
@@ -62,17 +60,4 @@ public class SecurityUser implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    public static UserDetails fromUser(User user){
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                true,
-                true,
-                true,
-                true,
-                user.getRole().getAuthorities()
-        );
-    }
-
 }

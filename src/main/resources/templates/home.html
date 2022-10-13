@@ -6,8 +6,7 @@
 </head>
 <body>
     <h1>Welcome to the shop</h1>
-    <p style="color:dodgerblue">We glad to see you, <p th:text="${#authentication.name}"></p></p>
-<!--    <p th:text="${#authentication.principal}"></p>-->
+    <p style="color:dodgerblue">We glad to see you, [[${#request.userPrincipal.principal.user.fullName}]]!</p>
     <br>
     <form th:action="@{|/auth/logout|}" method="post" name="logout">
         <button type="submit">Logout</button>
@@ -20,7 +19,7 @@
         <br>
         <a th:href="@{|/shopping_items/all|}">Go to list of shopping items</a>
         <br>
-        <a th:href="@{|/users/7/items|}">Go to cart</a>
+        <a th:href="@{|/users/${#request.userPrincipal.principal.user.id}/items|}">Go to cart</a>
 
     </div>
 

@@ -46,9 +46,10 @@ public class User {
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="shopping_item",
-    joinColumns = @JoinColumn(name="item_id"))
-    @ToString.Exclude
+//    @JoinTable(name="shopping_item",
+//    joinColumns = @JoinColumn(name="user_id"),
+//    inverseJoinColumns = @JoinColumn(name="item_id"))
+//    @ToString.Exclude
     private List<ShoppingItem> stuffList;
 
     public String getFullName() {return name + ' ' + surname;}

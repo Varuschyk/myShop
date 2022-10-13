@@ -1,7 +1,6 @@
 package com.alexvar.springboot_rest.controller;
 
 import com.alexvar.springboot_rest.model.Role;
-import com.alexvar.springboot_rest.model.ShoppingItem;
 import com.alexvar.springboot_rest.model.User;
 import com.alexvar.springboot_rest.services.ShoppingItemService;
 import com.alexvar.springboot_rest.services.UserService;
@@ -13,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -99,12 +97,10 @@ public class UserController {
 
     @GetMapping("/{id}/add")
     @PreAuthorize("hasAuthority('developer:read')")
-    public String addShoppingItem(@PathVariable(value="id") long id, @RequestParam(value = "item_id") long itemId){
+    public String addShoppingItem(@PathVariable(value="id") long id, @RequestParam(required = false, value = "item_id") long itemId){
         User user = userService.readById(id);
 
-        List<ShoppingItem> items = user.getStuffList();
-        items.add(shoppingItemService.readById(itemId));
-        user.setStuffList(items);
+        user.getStuffList().add(shoppingItemService.readById(itemId));
 
         userService.update(user);
         return "redirect:/users/all";
@@ -112,12 +108,10 @@ public class UserController {
 
     @GetMapping("/{id}/remove")
     @PreAuthorize("hasAuthority('developer:read')")
-    public String removeShoppingItem(@PathVariable(value = "id") long id, @RequestParam(value = "item_id") long itemId){
+    public String removeShoppingItem(@PathVariable(value = "id") long id, @RequestParam(required = false, value = "item_id") long itemId){
         User user = userService.readById(id);
 
-        List<ShoppingItem> items = user.getStuffList();
-        items.remove(shoppingItemService.readById(itemId));
-        user.setStuffList(items);
+        user.getStuffList().remove(shoppingItemService.readById(itemId));
 
         userService.update(user);
         return "redirect:/users/all";

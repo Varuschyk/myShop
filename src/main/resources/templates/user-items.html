@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Items</title>
+</head>
+<body>
+    <h3>Items in your car:</h3>
+        <div>
+            <table border="1">
+                <thead>
+                <tr>
+                    <th scope="col">No. </th>
+                    <th scope="col">Id </th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Operations</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item, temp : ${user.getStuffList()}">
+                        <th th:scope="row" th:text="${temp.index + 1}"/>
+                        <td th:text="${item.id}"/>
+                        <td th:text="${item.name}"/>
+                        <td th:text="${item.price}"/>
+                        <td>
+                            <a th:href="@{/users/{id}/remove(id = ${user.id}, item_id = ${item.id})}">Remove</a>
+                        </td>
+                        <tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    <br>
+    <br>
+    <br>
+
+
+    <h3>Items in the store:</h3>
+        <div>
+            <form th:action="@{/users/{id}/add(id = ${user.id})}" method="get">
+                <select class="form-control" name="item_id" id="items">
+                    <option>Select item...</option>
+                    <option th:each="item : ${items}" th:value="${item.id}"
+                            th:text="${item.name}"></option>
+                </select>
+                <input class="btn btn" type="submit" value="Add">
+            </form>
+        </div>
+
+</body>
+</html>

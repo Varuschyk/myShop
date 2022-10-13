@@ -10,7 +10,7 @@
 <body>
     <h1>All Items of online shop</h1>
 
-    <table class="table">
+    <table class="table" border="2">
         <thead>
         <tr>
             <th>No. </th>
@@ -31,6 +31,7 @@
             <td th:text="${item.createdAt}"/>
 
             <td>
+                <a th:href="@{|/users/{id}/add(id = ${user.id})|}">Add to cart</a>
                 <a th:href="@{|/shopping_items/update/${item.id}|}">Edit</a>
                 <a th:href="@{|/shopping_items/delete/${item.id}|}">Delete</a>
             </td>

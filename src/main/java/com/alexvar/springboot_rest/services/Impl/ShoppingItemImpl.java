@@ -1,5 +1,6 @@
 package com.alexvar.springboot_rest.services.Impl;
 
+import com.alexvar.springboot_rest.exception.NullEntityException;
 import com.alexvar.springboot_rest.model.ShoppingItem;
 import com.alexvar.springboot_rest.repositories.ShoppingItemRepository;
 import com.alexvar.springboot_rest.services.ShoppingItemService;
@@ -25,7 +26,11 @@ public class ShoppingItemImpl implements ShoppingItemService {
 
     @Override
     public ShoppingItem readById(long id) {
-        return shoppingItemRepository.getReferenceById(id);
+        if(shoppingItemRepository.existsById(id)) {
+            return shoppingItemRepository.findById(id).get();
+        }else{
+            throw new NullEntityException("Item not found!");
+        }
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.alexvar.springboot_rest.model;
 
 import lombok.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,6 +46,8 @@ public class User {
     private Role role;
 
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="shopping_item",
+    joinColumns = @JoinColumn(name="item_id"))
     @ToString.Exclude
     private List<ShoppingItem> stuffList;
 

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -10,41 +12,112 @@
 <body>
     <h1>All Users</h1>
 
-    <a th:href="@{|/users/create|}">Create User</a>
+    <form th:action="@{/users/create}">
+        <input type="submit" class="btn btn-primary" value="Create User">
+    </form>
 
-    <table class="table" border="1">
-        <thead>
-        <tr>
-            <th scope="col">No .</th>
-            <th scope="col">Id </th>
-            <th scope="col">Full name </th>
-            <th scope="col">E-mail </th>
-            <th scope="col">Role </th>
-            <th scope="col">Stuff list </th>
-            <th scope="col" colspan="2">Operations</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="user, temp : ${users}">
-            <th th:scope="row" th:text="${temp.index + 1}"/>
-            <td th:text="${user.id}"/>
-            <td th:text="${user.getFullName()}"/>
-            <td th:text="${user.email}"/>
-            <td th:text="${user.role}"/>
-            <td th:text="${user.stuffList}"/>
+    <style>
+        div.row1{
+            display: flex;
+            border: 1px solid black;
+            font-weight: bold;
+        }
+        div.row2{
+            display: flex;
+            border: 1px solid black;
+            flex: 1;
+            text-align: left;
+        }
+        div.column{
+            display: flex;
+            border: 1px solid black;
+            flex:1;
+        }
+    </style>
 
-                <td>
-                    <a th:href="@{|/users/read/${user.id}|}">Info</a>
-                    <a th:href="@{|/users/update/${user.id}|}">Edit</a>
-                    <a th:href="@{|/users/delete/${user.id}|}">Delete</a>
-                </td>
 
-        </tr>
-        </tbody>
-    </table>
+
+    <div class="row1">
+        <div class="column">No.</div>
+        <div class="column">Id</div>
+        <div class="column">Full name</div>
+        <div class="column">E-mail</div>
+        <div class="column">Role</div>
+        <div class="column">Stuff list</div>
+        <div class="column">Operations</div>
+    </div>
+
+    <div class="row2" th:each="user, temp : ${users}">
+        <div class="column" th:scope="row" th:text="${temp.index + 1}"/>
+        <div class="column" th:text="${user.id}"/>
+        <div class="column" th:text="${user.getFullName()}"/>
+        <div class="column" th:text="${user.email}"/>
+        <div class="column" th:text="${user.role}"/>
+
+        <div class="column" th:if="${user.stuffList.isEmpty()}" th:text="'Cart is empty!'"></div>
+
+        <div th:each="item : ${user.stuffList}">
+            <b class="column" th:text="'Name: ' + ${item.name} +' | '+ ' Price: ' + ${item.price}"></b>
+        </div>
+
+        <div class="row2">
+            <form th:action="@{|/users/read/${user.id}|}">
+                <input type="submit" class="btn btn-info" value="Info"/>
+            </form>
+            &nbsp;
+            <form th:action="@{|/users/update/${user.id}|}">
+                <input type="submit" class="btn btn-info" value="Edit"/>
+            </form>
+            &nbsp;
+            <form th:action="@{|/users/delete/${user.id}|}">
+                <input type="submit" class="btn btn-danger" value="Delete"/>
+            </form>
+        </div>
+    </div>
+
+
+<!--    <table class="table" border="1">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th scope="col">No .</th>-->
+<!--            <th scope="col">Id </th>-->
+<!--            <th scope="col">Full name </th>-->
+<!--            <th scope="col">E-mail </th>-->
+<!--            <th scope="col">Role </th>-->
+<!--            <th scope="col">Stuff list </th>-->
+<!--            <th scope="col" colspan="2">Operations</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="user, temp : ${users}">-->
+<!--            <th th:scope="row" th:text="${temp.index + 1}"/>-->
+<!--            <td th:text="${user.id}"/>-->
+<!--            <td th:text="${user.getFullName()}"/>-->
+<!--            <td th:text="${user.email}"/>-->
+<!--            <td th:text="${user.role}"/>-->
+
+<!--            <td th:if="${user.stuffList.isEmpty()}" th:text="'Cart is empty!'"></td>-->
+
+<!--            <td th:each="item : ${user.stuffList}">-->
+<!--                <b th:text="'Name: ' + ${item.name} +' | '+ ' Price: ' + ${item.price}"></b>-->
+<!--            </td>-->
+
+<!--            <td>-->
+<!--                <div class="row">-->
+<!--                <form th:action="@{/users/read/${user.id}}"><button>Info</button> </form>-->
+<!--                <form th:action="@{/users/update/${user.id}}"><button>Edit</button> </form>-->
+<!--                <form th:action="@{/users/delete/${user.id}}"><button>Delete</button> </form>-->
+<!--                </div>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
 
     <br>
-    <a th:href="@{|/home|}">Back to home page</a>
+    <form th:action="@{/home}">
+        <input type="submit" class="btn btn-primary" value="Back to home page"/>
+    </form>
+
 
 </body>
 </html>

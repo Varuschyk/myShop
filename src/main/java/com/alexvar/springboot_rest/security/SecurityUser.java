@@ -1,7 +1,9 @@
 package com.alexvar.springboot_rest.security;
 
 import com.alexvar.springboot_rest.model.User;
+import com.alexvar.springboot_rest.repositories.UserRepository;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,11 +13,13 @@ import java.util.List;
 
 @Data
 public class SecurityUser implements UserDetails {
-
     private final String username;
     private final String password;
     private final List<SimpleGrantedAuthority> authorities;
     private final boolean isActive;
+
+    @Autowired
+    private UserRepository userRepository;
 
     public SecurityUser(String username, String password, List<SimpleGrantedAuthority> authorities, boolean isActive) {
         this.username = username;

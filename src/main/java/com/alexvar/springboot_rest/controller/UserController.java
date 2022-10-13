@@ -1,11 +1,11 @@
 package com.alexvar.springboot_rest.controller;
 
 import com.alexvar.springboot_rest.model.Role;
+import com.alexvar.springboot_rest.model.ShoppingItem;
 import com.alexvar.springboot_rest.model.User;
+import com.alexvar.springboot_rest.services.ShoppingItemService;
 import com.alexvar.springboot_rest.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +13,19 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
+    private final ShoppingItemService shoppingItemService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ShoppingItemService shoppingItemService) {
         this.userService = userService;
+        this.shoppingItemService = shoppingItemService;
     }
 
     @GetMapping("/all")
@@ -56,6 +59,14 @@ public class UserController {
         return "user-info";
     }
 
+    @GetMapping("/{id}/items")
+    @PreAuthorize("hasAuthority('developer:read')")
+    public String read(@PathVariable(value="id") long id, Model model){
+        model.addAttribute("user", userService.readById(id));
+        model.addAttribute("items", shoppingItemService.getAll());
+        return "user-items";
+    }
+
     @GetMapping("/update/{id}")
     @PreAuthorize("hasAuthority('developer:write')")
     public String update(@PathVariable(value="id") long id, Model model){
@@ -83,6 +94,32 @@ public class UserController {
     @PreAuthorize("hasAuthority('developer:write')")
     public String delete(@PathVariable(value="id") long id){
         userService.delete(id);
+        return "redirect:/users/all";
+    }
+
+    @GetMapping("/{id}/add")
+    @PreAuthorize("hasAuthority('developer:read')")
+    public String addShoppingItem(@PathVariable(value="id") long id, @RequestParam(value = "item_id") long itemId){
+        User user = userService.readById(id);
+
+        List<ShoppingItem> items = user.getStuffList();
+        items.add(shoppingItemService.readById(itemId));
+        user.setStuffList(items);
+
+        userService.update(user);
+        return "redirect:/users/all";
+    }
+
+    @GetMapping("/{id}/remove")
+    @PreAuthorize("hasAuthority('developer:read')")
+    public String removeShoppingItem(@PathVariable(value = "id") long id, @RequestParam(value = "item_id") long itemId){
+        User user = userService.readById(id);
+
+        List<ShoppingItem> items = user.getStuffList();
+        items.remove(shoppingItemService.readById(itemId));
+        user.setStuffList(items);
+
+        userService.update(user);
         return "redirect:/users/all";
     }
 

@@ -103,7 +103,7 @@ public class UserController {
         user.getStuffList().add(shoppingItemService.readById(itemId));
 
         userService.update(user);
-        return "redirect:/users/all";
+        return "redirect:/users/{id}/items";
     }
 
     @GetMapping("/{id}/remove")
@@ -114,7 +114,7 @@ public class UserController {
         user.getStuffList().remove(shoppingItemService.readById(itemId));
 
         userService.update(user);
-        return "redirect:/users/all";
+        return "redirect:/users/{id}/items";
     }
 
 }

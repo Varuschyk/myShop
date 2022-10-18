@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Table(name="shopping_items")
 @Entity
@@ -21,21 +22,21 @@ public class ShoppingItem {
     private String name;
 
     @Column(name="price")
-    private int price;
+    private double price;
 
     @Column(name="created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Override
     public boolean equals(Object o) {
-        return this.id == ((ShoppingItem)o).id &&
-                this.price == ((ShoppingItem)o).price &&
-                this.name.equals(((ShoppingItem)o).name) &&
-                this.createdAt.equals(((ShoppingItem)o).createdAt);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ShoppingItem that = (ShoppingItem) o;
+        return price == that.price && Objects.equals(name, that.name) && Objects.equals(createdAt, that.createdAt);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(name, price, createdAt);
     }
 }

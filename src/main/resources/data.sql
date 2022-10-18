@@ -1,5 +1,5 @@
-INSERT INTO shopping_items(id, name, price, created_at) VALUES(1, 'Microwave', 50, CURRENT_DATE);
-INSERT INTO shopping_items(id, name, price, created_at) VALUES(2, 'Fridge', 55, CURRENT_DATE);
+INSERT INTO shopping_items(id, name, price, created_at) VALUES(4, 'Microwave', 50, CURRENT_DATE);
+INSERT INTO shopping_items(id, name, price, created_at) VALUES(5, 'Fridge', 55, CURRENT_DATE);
 
 -- INSERT INTO roles(id, name) VALUES(1, 'USER');
 -- INSERT INTO roles(id, name) VALUES(2, 'ADMIN');

@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import java.security.Principal;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -20,7 +21,7 @@ import java.util.Objects;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name="name", nullable = false)
@@ -45,12 +46,11 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name="shopping_item",
-//    joinColumns = @JoinColumn(name="user_id"),
-//    inverseJoinColumns = @JoinColumn(name="item_id"))
-//    @ToString.Exclude
-    private List<ShoppingItem> stuffList;
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @JoinTable(name="stuff_list",
+    joinColumns = @JoinColumn(name="user_id"),
+    inverseJoinColumns = @JoinColumn(name="item_id"))
+    private Set<ShoppingItem> stuffList;
 
     public String getFullName() {return name + ' ' + surname;}
 

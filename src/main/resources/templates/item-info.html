@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Item info</title>
+</head>
+<body>
+    <h3>Item info</h3>
+    <br>
+    <a th:href="@{/home}">Go to home</a>
+    <br>
+        <table border="1">
+            <tr>
+                <td>Id: </td>
+                <td th:text="${item.id}"></td>
+            </tr>
+            <tr>
+                <td>Name: </td>
+                <td th:text="${item.name}"></td>
+            </tr>
+            <tr>
+                <td>Price: </td>
+                <td th:text="${item.price}"></td>
+            </tr>
+            <tr>
+                <td>Time creation: </td>
+                <td th:text="${item.createdAt}"></td>
+            </tr>
+        </table>
+        <br>
+        <a th:href="@{/shopping_items/update/{id}(id = ${item.id})}">Edit</a>
+        <a th:href="@{/shopping_items/delete/{id}(id = ${item.id})}">Delete</a>
+        <br>
+        <a th:href="@{/shopping_items/all}">Go to list</a>
+</body>
+</html>

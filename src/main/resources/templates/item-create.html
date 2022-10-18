@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create item</title>
+</head>
+<body>
+    <h3>Create item</h3>
+    <br>
+    <a th:href="@{/home}">Go to home</a>
+    <br>
+    <div>
+        <br>
+        <form th:action="@{|/shopping_items/create|}" th:object="${item}" th:method="post">
+
+            <div>
+                <label for="name">Name: </label>
+                <input id="name" type="text" th:field="*{name}"/>
+                <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+            </div>
+            <div>
+                <label for="price">Price: </label>
+                <input id="price" type="text" th:field="*{price}"/>
+                <small style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+            </div>
+
+            <div>
+                <input type="submit" value="Create"/>
+                <input type="reset" value="Clear"/>
+            </div>
+        </form>
+        <br>
+        <a th:href="@{|/shopping_items/all|}">Back to list</a>
+    </div>
+</body>
+</html>

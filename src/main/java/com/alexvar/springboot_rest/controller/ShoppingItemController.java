@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Controller
 @RequestMapping("/shopping_items")
 public class ShoppingItemController {
@@ -27,18 +29,18 @@ public class ShoppingItemController {
     @GetMapping("/create")
     public String create(Model model){
         model.addAttribute("item", new ShoppingItem());
-        return "create-item";
+        return "item-create";
     }
 
     @PostMapping("/create")
     public String create(@ModelAttribute("item") ShoppingItem item){
         shoppingItemService.create(item);
-        return "redirect:/all";
+        return "redirect:/shopping_items/all";
     }
 
-    @GetMapping("/item/{id}")
+    @GetMapping("/read/{id}")
     public String read(@PathVariable(value = "id") long id, Model model){
-        model.addAttribute("item",shoppingItemService.readById(id));
+        model.addAttribute("item", shoppingItemService.readById(id));
         return "item-info";
     }
 
@@ -49,14 +51,14 @@ public class ShoppingItemController {
     }
 
     @PostMapping("/update/{id}")
-    public String update(@PathVariable(value = "id") long id, ShoppingItem item){
+    public String update(@ModelAttribute("item") @Valid ShoppingItem item){
         shoppingItemService.update(item);
-        return "redirect:/item/{id}";
+        return "redirect:/shopping_items/read/{id}";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable(value = "id") long id){
         shoppingItemService.delete(id);
-        return "redirect:/all";
+        return "redirect:/shopping_items/all";
     }
 }

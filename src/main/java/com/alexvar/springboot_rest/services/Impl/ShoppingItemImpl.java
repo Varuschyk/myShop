@@ -7,6 +7,7 @@ import com.alexvar.springboot_rest.services.ShoppingItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -35,10 +36,18 @@ public class ShoppingItemImpl implements ShoppingItemService {
 
     @Override
     public ShoppingItem update(ShoppingItem shoppingItem) {
-        ShoppingItem newItem = new ShoppingItem();
+        if(shoppingItem == null){
+            throw new NullEntityException("Item is null!");
+        }
+
+        System.out.println(shoppingItem);
+
+        ShoppingItem newItem = shoppingItemRepository.findById(shoppingItem.getId()).get();
         newItem.setName(shoppingItem.getName());
         newItem.setPrice(shoppingItem.getPrice());
-        return newItem;
+        newItem.setCreatedAt(LocalDateTime.now());
+
+        return shoppingItemRepository.save(newItem);
     }
 
     @Override

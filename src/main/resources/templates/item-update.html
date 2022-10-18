@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update item</title>
+</head>
+<body>
+    <h3>Update item</h3>
+    <br>
+    <a th:href="@{/home}">Go to home</a>
+    <br>
+    <form th:action="@{|/shopping_items/update/*{id}|}" th:object="${item}" method="post">
+        <div>
+            <label for="id">Id: </label>
+            <input id="id" type="text" th:field="*{id}" disabled>
+        </div>
+        <div>
+            <label for="name">Name: </label>
+            <input id="name" type="text" th:field="*{name}">
+            <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+        </div>
+        <div>
+            <label for="price">Price: </label>
+            <input id="price" type="number" th:field="*{price}">
+            <small style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+        </div>
+        <div>
+            <input type="submit" value="Update">
+            <input type="reset" value="Clear">
+        </div>
+    </form>
+    <br>
+    <a th:href="@{/shopping_items/all}">Go to list</a>
+
+</body>
+</html>

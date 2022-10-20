@@ -23,7 +23,6 @@
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link active" th:href="@{/home}">Home</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{|/users/${#request.userPrincipal.principal.user.id}/items|}">Your cart</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{|/shopping_items/all|}">Shop menu</a></li>
             </ul>
 
@@ -36,11 +35,11 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li class="dropdown-header">User menu</li>
                         <form th:action="@{|/users/all|}">
-                            <button class="dropdown-item" style="color:black" type="submit">Go to list of users</button>
+                            <button class="dropdown-item" style="color:black" type="submit">Go to list of users <i class="fa-solid fa-users"></i></button>
                         </form>
 
                         <form th:action="@{|/users/${#request.userPrincipal.principal.user.id}/items|}">
-                            <button class="dropdown-item" style="color:black" type="submit">Go to cart</button>
+                            <button class="dropdown-item" style="color:black" type="submit">Go to cart <i class="fa-solid fa-cart-shopping"></i></button>
                         </form>
 
                         <div class="dropdown-divider"></div>
@@ -55,9 +54,6 @@
         </div>
     </div>
 </nav>
-
-
-
 
 
 

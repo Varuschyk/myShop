@@ -46,7 +46,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinTable(name="stuff_list",
     joinColumns = @JoinColumn(name="user_id"),
     inverseJoinColumns = @JoinColumn(name="item_id"))

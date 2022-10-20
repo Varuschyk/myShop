@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Table(name="shopping_items")
@@ -26,6 +27,12 @@ public class ShoppingItem {
 
     @Column(name="created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @ManyToMany
+    @JoinTable(name = "item_user",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users;
 
     @Override
     public boolean equals(Object o) {

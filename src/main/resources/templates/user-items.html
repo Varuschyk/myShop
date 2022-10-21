@@ -89,11 +89,11 @@
         <div>
             <form th:action="@{/users/{id}/add(id = ${user.id})}" method="get">
                 <select class="form-control" name="item_id">
-                    <option>Select item...</option>
+                    <option disabled>Select item...</option>
                     <option th:each="item : ${items}" th:value="${item.id}"
                             th:text="${item.name}"></option>
                 </select>
-                <input class="btn btn" type="submit" value="Add">
+                    <input class="btn btn" type="submit" value="Add">
             </form>
         </div>
 

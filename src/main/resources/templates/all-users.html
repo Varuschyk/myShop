@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -56,13 +58,13 @@
 </nav>
 
 
-
-
     <h1>All Users</h1>
 
-    <form th:action="@{/users/create}">
-        <input type="submit" class="btn btn-primary" value="Create User">
-    </form>
+    <div sec:authorize="hasAuthority('developer:write')">
+        <form th:action="@{/users/create}">
+            <input type="submit" class="btn btn-primary" value="Create User">
+        </form>
+    </div>
 
     <style>
         div.row1{
@@ -82,8 +84,6 @@
             flex:1;
         }
     </style>
-
-
 
     <div class="row1">
         <div class="column">No.</div>
@@ -117,9 +117,11 @@
                 <input type="submit" class="btn btn-info" value="Edit"/>
             </form>
             &nbsp;
-            <form th:action="@{|/users/delete/${user.id}|}">
-                <input type="submit" class="btn btn-danger" value="Delete"/>
-            </form>
+            <div th:if="${user.id} != ${#request.userPrincipal.principal.user.id}">
+                <form th:action="@{|/users/delete/${user.id}|}">
+                    <input type="submit" class="btn btn-danger" value="Delete"/>
+                </form>
+            </div>
         </div>
     </div>
 

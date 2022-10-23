@@ -23,6 +23,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{|/shopping_items/all|}">Shop menu</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{|/shopping_items/create|}">Upload thing</a></li>
             </ul>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -51,12 +52,13 @@
 </nav>
 
 <div class="container justify-content-start">
+    <br>
     <h3>Items in your car:</h3>
     <br>
     <br>
         <div>
-            <table border="1">
-                <thead>
+            <table class="table table-hover table-sm table-bordered">
+                <thead class="table-dark">
                 <tr>
                     <th scope="col">No. </th>
                     <th scope="col">Id </th>
@@ -66,6 +68,7 @@
                 </tr>
                 </thead>
                 <tbody>
+
                     <tr th:each="item, temp : ${user.getStuffList()}">
                         <th th:scope="row" th:text="${temp.index + 1}"/>
                         <td th:text="${item.id}"/>
@@ -74,9 +77,11 @@
                         <td>
                             <a th:href="@{/users/{id}/remove(id = ${user.id}, item_id = ${item.id})}">Remove</a>
                         </td>
-                        <tr>
                 </tbody>
             </table>
+            <div th:if="${user.getStuffList().isEmpty()}" class="text-center">
+                <b>Cart is empty, if you would like to buy something, follow to shop menu ;)</b>
+            </div>
         </div>
 
 
@@ -91,11 +96,18 @@
                 <select class="form-control" name="item_id">
                     <option disabled>Select item...</option>
                     <option th:each="item : ${items}" th:value="${item.id}"
-                            th:text="${item.name}"></option>
+                            th:text="${item.name}">
+                    </option>
                 </select>
                     <input class="btn btn" type="submit" value="Add">
             </form>
         </div>
+
+    <br>
+    <br>
+    <div class="text-center">
+        <button class="btn btn-success" type="submit">Proceed to checkout</button>
+    </div>
 
 </div>
 

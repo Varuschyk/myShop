@@ -28,6 +28,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
                 <li class="nav-item"><a class="nav-link active" th:href="@{|/shopping_items/all|}">Shop menu</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{|/shopping_items/create|}">Upload thing</a></li>
             </ul>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -66,15 +67,22 @@
 
     <br>
 
-    <table class="table" border="2">
-        <thead>
+    <form th:action="@{/shopping_items/create}">
+        <button type="submit">Create thing</button>
+    </form>
+
+    <br>
+
+    <table class="table table-hover table-sm table-bordered">
+        <thead class="table-dark">
         <tr>
-            <th>No. </th>
-            <th>Id </th>
-            <th>Name </th>
-            <th>Price </th>
-            <th>Creation time </th>
-            <th>Operations</th>
+            <th scope="col">No. </th>
+            <th scope="col">Id </th>
+            <th scope="col">Name </th>
+            <th scope="col">Price </th>
+            <th scope="col">Creation time </th>
+            <th scope="col">Photo</th>
+            <th scope="col" colspan="4">Operations</th>
         </tr>
         </thead>
 
@@ -85,18 +93,32 @@
             <td th:text="${item.name}"/>
             <td th:text="${item.price}"/>
             <td th:text="${item.createdAt}"/>
+            <td>
+                <img th:src="${item.image}" width="400" height="300">
+            </td>
 
             <td>
                 <form th:action="@{/users/{id}/add (id=${#request.userPrincipal.principal.user.id})}">
                     <button type="submit" name="item_id" th:value="${item.getId()}">Add to cart</button>
                 </form>
+            </td>
+
+            <td>
                 <form th:action="@{|/shopping_items/read/${item.id}|}">
                     <button type="submit">Info</button>
                 </form>
+            </td>
+
+            <td>
                 <div sec:authorize="hasAuthority('developer:write')">
                     <form th:action="@{|/shopping_items/update/${item.id}|}">
                         <button type="submit">Edit</button>
                     </form>
+                </div>
+            </td>
+
+            <td>
+            <div sec:authorize="hasAuthority('developer:write')">
                     <form th:action="@{|/shopping_items/delete/${item.id}|}">
                         <button type="submit">Delete</button>
                     </form>

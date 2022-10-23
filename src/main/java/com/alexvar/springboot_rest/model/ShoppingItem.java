@@ -3,6 +3,7 @@ package com.alexvar.springboot_rest.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -23,7 +24,11 @@ public class ShoppingItem {
     private String name;
 
     @Column(name="price")
+    @Min(value = 0, message = "Price cannot be lower 0!")
     private double price;
+
+    @Column(name="image")
+    private String image;
 
     @Column(name="created_at")
     private LocalDateTime createdAt = LocalDateTime.now();

@@ -1,5 +1,5 @@
-INSERT INTO shopping_items(id, name, price, created_at) VALUES(4, 'Microwave', 50, CURRENT_DATE);
-INSERT INTO shopping_items(id, name, price, created_at) VALUES(5, 'Fridge', 55, CURRENT_DATE);
+INSERT INTO shopping_items(id, name, price, created_at, image) VALUES(4, 'Microwave', 50, CURRENT_DATE, 'https://nce.com.au/wp-content/uploads/2021/05/23L-Flatbed-Microwave-Oven-3.png');
+INSERT INTO shopping_items(id, name, price, created_at, image) VALUES(5, 'Fridge', 55, CURRENT_DATE, 'http://cdn.shopify.com/s/files/1/1805/8667/products/europace-500l-deluxe-top-mount-fridge-er-5461w-europace-1.jpg?v=1653544285');
 
 -- INSERT INTO roles(id, name) VALUES(1, 'USER');
 -- INSERT INTO roles(id, name) VALUES(2, 'ADMIN');

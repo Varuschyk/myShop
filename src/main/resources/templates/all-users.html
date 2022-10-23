@@ -29,6 +29,7 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{|/shopping_items/all|}">Shop menu</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{|/shopping_items/create|}">Upload thing</a></li>
             </ul>
 
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -57,6 +58,7 @@
     </div>
 </nav>
 
+    <br>
 
     <h1>All Users</h1>
 
@@ -66,102 +68,179 @@
         </form>
     </div>
 
-    <style>
-        div.row1{
-            display: flex;
-            border: 1px solid black;
-            font-weight: bold;
-        }
-        div.row2{
-            display: flex;
-            border: 1px solid black;
-            flex: 1;
-            text-align: left;
-        }
-        div.column{
-            display: flex;
-            border: 1px solid black;
-            flex:1;
-        }
-    </style>
-
-    <div class="row1">
-        <div class="column">No.</div>
-        <div class="column">Id</div>
-        <div class="column">Full name</div>
-        <div class="column">E-mail</div>
-        <div class="column">Role</div>
-        <div class="column">Stuff list</div>
-        <div class="column">Operations</div>
-    </div>
-
-    <div class="row2" th:each="user, temp : ${users}">
-        <div class="column" th:scope="row" th:text="${temp.index + 1}"/>
-        <div class="column" th:text="${user.id}"/>
-        <div class="column" th:text="${user.getFullName()}"/>
-        <div class="column" th:text="${user.email}"/>
-        <div class="column" th:text="${user.role}"/>
-
-        <div class="column" th:if="${user.stuffList.isEmpty()}" th:text="'Cart is empty!'"></div>
-
-        <div th:each="item : ${user.stuffList}">
-            <b class="column" th:text="'Name: ' + ${item.name} +' | '+ ' Price: ' + ${item.price}"></b>
-        </div>
-
-        <div class="row2">
-            <form th:action="@{|/users/read/${user.id}|}">
-                <input type="submit" class="btn btn-info" value="Info"/>
-            </form>
-            &nbsp;
-            <form th:action="@{|/users/update/${user.id}|}">
-                <input type="submit" class="btn btn-info" value="Edit"/>
-            </form>
-            &nbsp;
-            <div th:if="${user.id} != ${#request.userPrincipal.principal.user.id}">
-                <form th:action="@{|/users/delete/${user.id}|}">
-                    <input type="submit" class="btn btn-danger" value="Delete"/>
-                </form>
-            </div>
-        </div>
-    </div>
 
 
-<!--    <table class="table" border="1">-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th scope="col">No .</th>-->
-<!--            <th scope="col">Id </th>-->
-<!--            <th scope="col">Full name </th>-->
-<!--            <th scope="col">E-mail </th>-->
-<!--            <th scope="col">Role </th>-->
-<!--            <th scope="col">Stuff list </th>-->
-<!--            <th scope="col" colspan="2">Operations</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <tr th:each="user, temp : ${users}">-->
-<!--            <th th:scope="row" th:text="${temp.index + 1}"/>-->
-<!--            <td th:text="${user.id}"/>-->
-<!--            <td th:text="${user.getFullName()}"/>-->
-<!--            <td th:text="${user.email}"/>-->
-<!--            <td th:text="${user.role}"/>-->
+<table class="table table-hover table-sm table-bordered">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">No .</th>
+        <th scope="col">Id </th>
+        <th scope="col">Full name </th>
+        <th scope="col">E-mail </th>
+        <th scope="col">Role </th>
+        <th scope="col">Stuff list </th>
+        <th scope="col" colspan="3">Operations</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user, temp : ${users}">
+        <th th:scope="row" th:text="${temp.index + 1}"/>
+        <td th:text="${user.id}"/>
+        <td th:text="${user.getFullName()}"/>
+        <td th:text="${user.email}"/>
+        <td th:text="${user.role}"/>
 
-<!--            <td th:if="${user.stuffList.isEmpty()}" th:text="'Cart is empty!'"></td>-->
+        <td th:if="${user.stuffList.isEmpty()}">
+            <b th:text="'Cart is empty!'"></b>
+        </td>
 
-<!--            <td th:each="item : ${user.stuffList}">-->
-<!--                <b th:text="'Name: ' + ${item.name} +' | '+ ' Price: ' + ${item.price}"></b>-->
-<!--            </td>-->
+        <td th:if="${!user.stuffList.isEmpty()}">
+            <b th:text="${user.stuffList.stream().count()}"></b>
+        </td>
 
-<!--            <td>-->
-<!--                <div class="row">-->
-<!--                <form th:action="@{/users/read/${user.id}}"><button>Info</button> </form>-->
-<!--                <form th:action="@{/users/update/${user.id}}"><button>Edit</button> </form>-->
-<!--                <form th:action="@{/users/delete/${user.id}}"><button>Delete</button> </form>-->
-<!--                </div>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-<!--    </table>-->
+        <td>
+            <form th:action="@{/users/read/${user.id}}"><button>Info</button> </form>
+        </td>
+        <td>
+            <form th:action="@{/users/update/${user.id}}"><button>Edit</button> </form>
+        </td>
+        <td>
+            <form th:action="@{/users/delete/${user.id}}"><button>Delete</button> </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!--    <style>-->
+<!--        table{-->
+<!--            border-collapse: collapse;-->
+<!--        }-->
+<!--        table td{-->
+<!--            border: 1px solid black;-->
+<!--        }-->
+<!--        .table{-->
+<!--            display: table;-->
+<!--            border-collapse: collapse;-->
+<!--        }-->
+<!--        .caption{-->
+<!--            display: table-caption;-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--        .thead{-->
+<!--            display: table-header-group;-->
+<!--        }-->
+<!--        .row{-->
+<!--            display: table-row;-->
+<!--        }-->
+<!--        .cell{-->
+<!--            display: table-cell;-->
+<!--            border: 1px solid black;-->
+<!--        }-->
+<!--        .tbody{-->
+<!--            display: table-row-group;-->
+<!--        }-->
+<!--        .tfoot{-->
+<!--            display: table-footer-group;-->
+<!--        }-->
+<!--    </style>-->
+
+
+<!--    <div class="table">-->
+<!--        <div class="caption">-->
+<!--            Текст-->
+<!--        </div>-->
+<!--        <div class="thead">-->
+<!--            <div class="row">-->
+<!--                <div class="cell">No.</div>-->
+<!--                <div class="cell">Id</div>-->
+<!--                <div class="cell">Full name</div>-->
+<!--                <div class="cell">E-mail</div>-->
+<!--                <div class="cell">Role</div>-->
+<!--                <div class="cell">Stuff list</div>-->
+<!--                <div class="cell">Operations</div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="tbody">-->
+<!--            <div class="row">-->
+<!--                <div class="cell"></div>-->
+<!--                <div class="cell"></div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="tfoot">-->
+<!--            <div class="row">-->
+<!--                <div class="cell"></div>-->
+<!--                <div class="cell"></div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+
+
+
+
+<!--    <style>-->
+<!--        div.row1{-->
+<!--            display: flex;-->
+<!--            border: 1px solid black;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+<!--        div.row2{-->
+<!--            display: flex;-->
+<!--            border: 1px solid black;-->
+<!--            flex: 1;-->
+<!--            text-align: left;-->
+<!--        }-->
+<!--        div.column{-->
+<!--            display: flex;-->
+<!--            border: 1px solid black;-->
+<!--            flex:1;-->
+<!--        }-->
+<!--    </style>-->
+
+<!--    <div class="row1">-->
+<!--        <div class="column">No.</div>-->
+<!--        <div class="column">Id</div>-->
+<!--        <div class="column">Full name</div>-->
+<!--        <div class="column">E-mail</div>-->
+<!--        <div class="column">Role</div>-->
+<!--        <div class="column">Stuff list</div>-->
+<!--        <div class="column">Operations</div>-->
+<!--    </div>-->
+
+<!--    <div class="row2" th:each="user, temp : ${users}">-->
+<!--        <div class="column" th:scope="row" th:text="${temp.index + 1}"/>-->
+<!--        <div class="column" th:text="${user.id}"/>-->
+<!--        <div class="column" th:text="${user.getFullName()}"/>-->
+<!--        <div class="column" th:text="${user.email}"/>-->
+<!--        <div class="column" th:text="${user.role}"/>-->
+
+<!--        <div class="column" th:if="${user.stuffList.isEmpty()}" th:text="'Cart is empty!'"></div>-->
+
+<!--        <div th:each="item : ${user.stuffList}">-->
+<!--            <b class="column" th:text="'Name: ' + ${item.name} +' | '+ ' Price: ' + ${item.price}"></b>-->
+<!--        </div>-->
+
+<!--        <div class="row2">-->
+<!--            <form th:action="@{|/users/read/${user.id}|}">-->
+<!--                <input type="submit" class="btn btn-info" value="Info"/>-->
+<!--            </form>-->
+<!--            &nbsp;-->
+<!--            <form th:action="@{|/users/update/${user.id}|}">-->
+<!--                <input type="submit" class="btn btn-info" value="Edit"/>-->
+<!--            </form>-->
+<!--            &nbsp;-->
+<!--            <div th:if="${user.id} != ${#request.userPrincipal.principal.user.id}">-->
+<!--                <form th:action="@{|/users/delete/${user.id}|}">-->
+<!--                    <input type="submit" class="btn btn-danger" value="Delete"/>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+
 
 </body>
 </html>

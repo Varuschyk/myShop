@@ -17,6 +17,18 @@
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/a4849091d7.js" crossorigin="anonymous"></script>
     <title>Items</title>
+
+    <style>
+        /*.fullscreen{*/
+        /*    background-size: cover;*/
+        /*    background-repeat: no-repeat;*/
+        /*    background-position: center;*/
+        /*    min-height: 100vh;*/
+        /*    display: flex;*/
+
+        /*}*/
+    </style>
+
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
@@ -62,72 +74,65 @@
     </div>
 </nav>
 
+<section class="fullscreen">
+    <div class="container form-control">
+        <h1>All Items of online shop</h1>
+        <br>
+        <table class="table table-hover table-sm table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">No. </th>
+                <th scope="col">Id </th>
+                <th scope="col">Name </th>
+                <th scope="col">Price </th>
+                <th scope="col">Creation time </th>
+                <th scope="col">Photo</th>
+                <th scope="col" colspan="4">Operations</th>
+            </tr>
+            </thead>
 
-    <h1>All Items of online shop</h1>
+            <tbody>
+            <tr th:each="item, temp : ${items}">
+                <th th:scope="row" th:text="${temp.index + 1}"/>
+                <td th:text="${item.id}"/>
+                <td th:text="${item.name}"/>
+                <td th:text="${item.price}"/>
+                <td th:text="${item.createdAt}"/>
+                <td>
+                    <img th:src="${item.image}" width="400" height="300">
+                </td>
 
-    <br>
+                <td>
+                    <form th:action="@{/users/{id}/add (id=${#request.userPrincipal.principal.user.id})}">
+                        <button class="btn btn-success" type="submit" name="item_id" th:value="${item.getId()}">Add to cart</button>
+                    </form>
+                </td>
 
-    <form th:action="@{/shopping_items/create}">
-        <button type="submit">Create thing</button>
-    </form>
+                <td>
+                    <form th:action="@{|/shopping_items/read/${item.id}|}">
+                        <button class="btn btn-info" style="color:white" type="submit">Info</button>
+                    </form>
+                </td>
 
-    <br>
+                <td>
+                    <div sec:authorize="hasAuthority('developer:write')">
+                        <form th:action="@{|/shopping_items/update/${item.id}|}">
+                            <button class="btn btn-warning" type="submit">Edit</button>
+                        </form>
+                    </div>
+                </td>
 
-    <table class="table table-hover table-sm table-bordered">
-        <thead class="table-dark">
-        <tr>
-            <th scope="col">No. </th>
-            <th scope="col">Id </th>
-            <th scope="col">Name </th>
-            <th scope="col">Price </th>
-            <th scope="col">Creation time </th>
-            <th scope="col">Photo</th>
-            <th scope="col" colspan="4">Operations</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <tr th:each="item, temp : ${items}">
-            <th th:scope="row" th:text="${temp.index + 1}"/>
-            <td th:text="${item.id}"/>
-            <td th:text="${item.name}"/>
-            <td th:text="${item.price}"/>
-            <td th:text="${item.createdAt}"/>
-            <td>
-                <img th:src="${item.image}" width="400" height="300">
-            </td>
-
-            <td>
-                <form th:action="@{/users/{id}/add (id=${#request.userPrincipal.principal.user.id})}">
-                    <button type="submit" name="item_id" th:value="${item.getId()}">Add to cart</button>
-                </form>
-            </td>
-
-            <td>
-                <form th:action="@{|/shopping_items/read/${item.id}|}">
-                    <button type="submit">Info</button>
-                </form>
-            </td>
-
-            <td>
+                <td>
                 <div sec:authorize="hasAuthority('developer:write')">
-                    <form th:action="@{|/shopping_items/update/${item.id}|}">
-                        <button type="submit">Edit</button>
-                    </form>
-                </div>
-            </td>
-
-            <td>
-            <div sec:authorize="hasAuthority('developer:write')">
-                    <form th:action="@{|/shopping_items/delete/${item.id}|}">
-                        <button type="submit">Delete</button>
-                    </form>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-
+                        <form th:action="@{|/shopping_items/delete/${item.id}|}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </section>
 </body>
 </html>

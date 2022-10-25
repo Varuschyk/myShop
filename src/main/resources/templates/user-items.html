@@ -12,6 +12,9 @@
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/a4849091d7.js" crossorigin="anonymous"></script>
     <title>Items</title>
+
+
+
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
@@ -51,65 +54,75 @@
     </div>
 </nav>
 
-<div class="container justify-content-start">
-    <br>
-    <h3>Items in your car:</h3>
-    <br>
-    <br>
-        <div>
-            <table class="table table-hover table-sm table-bordered">
-                <thead class="table-dark">
-                <tr>
-                    <th scope="col">No. </th>
-                    <th scope="col">Id </th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Operations</th>
-                </tr>
-                </thead>
-                <tbody>
+<section class="fullscreen">
+    <div class="container form-control">
+        <div class="container justify-content-start">
+            <br>
+            <h3>Items in your car:</h3>
+            <br>
+            <br>
+                <div>
+                    <table class="table table-hover table-sm table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">No. </th>
+                                <th scope="col">Id </th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Photo</th>
+                                <th scope="col">Operations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="item, temp : ${user.getStuffList()}">
+                                <th th:scope="row" th:text="${temp.index + 1}"/>
+                                <td th:text="${item.id}"/>
+                                <td th:text="${item.name}"/>
+                                <td th:text="${item.price}"/>
+                                <td>
+                                    <img th:src="${item.image}" width="400" height="300">
+                                </td>
+                                <td>
+                                    <a th:href="@{|/shopping_items/read/${item.id}|}"
+                                       style="color:white" class="btn btn-info">Info</a>
 
-                    <tr th:each="item, temp : ${user.getStuffList()}">
-                        <th th:scope="row" th:text="${temp.index + 1}"/>
-                        <td th:text="${item.id}"/>
-                        <td th:text="${item.name}"/>
-                        <td th:text="${item.price}"/>
-                        <td>
-                            <a th:href="@{/users/{id}/remove(id = ${user.id}, item_id = ${item.id})}">Remove</a>
-                        </td>
-                </tbody>
-            </table>
-            <div th:if="${user.getStuffList().isEmpty()}" class="text-center">
-                <b>Cart is empty, if you would like to buy something, follow to shop menu ;)</b>
+                                    <a th:href="@{/users/{id}/remove(id = ${user.id}, item_id = ${item.id})}"
+                                    class="btn btn-danger">Remove</a>
+                                </td>
+                        </tbody>
+                    </table>
+                    <div th:if="${user.getStuffList().isEmpty()}" class="text-center">
+                        <b>Cart is empty, if you would like to buy something, follow to shop menu ;)</b>
+                    </div>
+                </div>
+
+
+            <br>
+            <br>
+            <br>
+
+
+            <h3>Items in the store:</h3>
+                <div>
+                    <form th:action="@{/users/{id}/add(id = ${user.id})}" method="get">
+                        <select class="form-control" name="item_id">
+                            <option disabled>Select item...</option>
+                            <option th:each="item : ${items}" th:value="${item.id}"
+                                    th:text="${item.name}">
+                            </option>
+                        </select>
+                            <input class="btn btn-outline-dark" type="submit" value="Add">
+                    </form>
+                </div>
+
+            <br>
+            <br>
+            <div class="text-center">
+                <button class="btn btn-success" type="submit">Proceed to checkout</button>
             </div>
+
         </div>
-
-
-    <br>
-    <br>
-    <br>
-
-
-    <h3>Items in the store:</h3>
-        <div>
-            <form th:action="@{/users/{id}/add(id = ${user.id})}" method="get">
-                <select class="form-control" name="item_id">
-                    <option disabled>Select item...</option>
-                    <option th:each="item : ${items}" th:value="${item.id}"
-                            th:text="${item.name}">
-                    </option>
-                </select>
-                    <input class="btn btn" type="submit" value="Add">
-            </form>
-        </div>
-
-    <br>
-    <br>
-    <div class="text-center">
-        <button class="btn btn-success" type="submit">Proceed to checkout</button>
     </div>
-
-</div>
-
+</section>
 </body>
 </html>

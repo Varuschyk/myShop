@@ -12,6 +12,25 @@
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/a4849091d7.js" crossorigin="anonymous"></script>
     <title>Home page</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .fullscreen {
+            background-image:
+                    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
+                    url("https://phonoteka.org/uploads/posts/2021-05/1621486589_27-phonoteka_org-p-fon-dlya-magazina-elektroniki-29.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -52,53 +71,53 @@
                             <button type="submit" class="dropdown-item" style="color:black">Logout</button>
                         </form>
                     </div>
-            </ul>
-            </li>
+                </ul>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
-
-
-<div class="container text-center">
-    <div class="row">
-        <div class="col-md">
-        <h1>Welcome to the VarShop</h1>
-        <p style="color:dodgerblue">We glad to see you, [[${#request.userPrincipal.principal.user.fullName}]]!</p>
-<!--        <form th:action="@{|/auth/logout|}" method="post" name="logout">-->
-<!--            <button type="submit" class="btn btn-primary"  style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .75rem;">Logout</button>-->
-<!--        </form>-->
+<section class="fullscreen">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md">
+                <h1 style="color:white">Welcome to the VarShop</h1>
+                <p style="color:white">We glad to see you, [[${#request.userPrincipal.principal.user.fullName}]]!</p>
+                <!--        <form th:action="@{|/auth/logout|}" method="post" name="logout">-->
+                <!--            <button type="submit" class="btn btn-primary"  style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .75rem;">Logout</button>-->
+                <!--        </form>-->
+            </div>
         </div>
     </div>
-</div>
 
-<!--<div class="container-fluid">-->
-<!--    <div class="row">-->
+    <!--<div class="container-fluid">-->
+    <!--    <div class="row">-->
 
-<!--        <div class="col-md-4" style="background-color:darkorange">-->
-<!--            <div style="color: darkmagenta">Menu of User</div>-->
-<!--            <div class="border border-dark border-2">-->
-<!--                <form th:action="@{|/users/all|}">-->
-<!--                    <button class="btn btn-primary" style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .75rem;" type="submit">Go to list of users</button>-->
-<!--                </form>-->
-<!--                <form th:action="@{|/users/${#request.userPrincipal.principal.user.id}/items|}">-->
-<!--                    <button class="btn btn-primary" style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .75rem;" type="submit">Go to cart</button>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
+    <!--        <div class="col-md-4" style="background-color:darkorange">-->
+    <!--            <div style="color: darkmagenta">Menu of User</div>-->
+    <!--            <div class="border border-dark border-2">-->
+    <!--                <form th:action="@{|/users/all|}">-->
+    <!--                    <button class="btn btn-primary" style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .75rem;" type="submit">Go to list of users</button>-->
+    <!--                </form>-->
+    <!--                <form th:action="@{|/users/${#request.userPrincipal.principal.user.id}/items|}">-->
+    <!--                    <button class="btn btn-primary" style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .75rem;" type="submit">Go to cart</button>-->
+    <!--                </form>-->
+    <!--            </div>-->
+    <!--        </div>-->
 
-<!--        <div class="col-md-4" style="background-color:brown">-->
-<!--        <div style="color:darkmagenta">Menu of Shop</div>-->
-<!--        <div class="border border-dark border-2">-->
-<!--            <form th:action="@{|/shopping_items/all|}">-->
-<!--                <button class="btn btn-primary" style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .75rem;" type="submit">Go to list of shopping items</button>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
+    <!--        <div class="col-md-4" style="background-color:brown">-->
+    <!--        <div style="color:darkmagenta">Menu of Shop</div>-->
+    <!--        <div class="border border-dark border-2">-->
+    <!--            <form th:action="@{|/shopping_items/all|}">-->
+    <!--                <button class="btn btn-primary" style="&#45;&#45;bs-btn-padding-y: .25rem; &#45;&#45;bs-btn-padding-x: .5rem; &#45;&#45;bs-btn-font-size: .75rem;" type="submit">Go to list of shopping items</button>-->
+    <!--            </form>-->
+    <!--        </div>-->
+    <!--    </div>-->
 
-<!--    </div>-->
-<!--</div>-->
-
+    <!--    </div>-->
+    <!--</div>-->
+    </div>
+</section>
 </body>
 </html>

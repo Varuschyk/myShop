@@ -47,4 +47,20 @@ public class ApplicationExceptionHandler {
 
         return modelAndView;
     }
+
+    @ExceptionHandler(ApiUserException.class)
+    public ModelAndView handleApiUserException(Exception exception, HttpServletRequest request, HttpServletResponse response){
+        ModelAndView modelAndView = new ModelAndView("400", HttpStatus.BAD_REQUEST);
+        modelAndView.addObject("info", exception.getMessage());
+
+        return modelAndView;
+    }
+
+    @ExceptionHandler(ApiShoppingItemException.class)
+    public ModelAndView handleApiShoppingItemException(Exception exception, HttpServletRequest request, HttpServletResponse response){
+        ModelAndView modelAndView = new ModelAndView("400", HttpStatus.BAD_REQUEST);
+        modelAndView.addObject("info", exception.getMessage());
+
+        return modelAndView;
+    }
 }

@@ -14,6 +14,28 @@
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/a4849091d7.js" crossorigin="anonymous"></script>
     <title>Create item</title>
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .item-create-form{
+            width: 400px;
+            max-width: 400px;
+            justify-content: start;
+            margin: initial;
+            padding: 3rem;
+        }
+
+        .content{
+            text-align:left;
+            width: 300px;
+        }
+    </style>
+
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
@@ -60,35 +82,39 @@
 </nav>
 
 
+<div class="container">
+    <div class="container-form form-control">
+        <div class="item-create-form">
+            <h3>Create item</h3>
+            <form th:action="@{|/shopping_items/create|}" th:object="${item}" th:method="post">
+                <div>
+                    <label for="name">Name: </label>
+                    <input class="form-control" id="name" type="text" th:field="*{name}" placeholder="Name of thing"/>
+                    <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                </div>
+                <div>
+                    <label for="price">Price: </label>
+                    <input class="form-control" id="price" type="number" th:field="*{price}" placeholder="Price"/>
+                    <small style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+                </div>
+                <div>
+                    <label for="image">Photo: </label>
+                    <input class="form-control" id="image" type="url" name="image" th:field="*{image}" placeholder="Enter URL of picture"/>
+                </div>
+                <br>
+                <div>
+                    <input class="btn btn-success" type="submit" value="Upload"/>
+                    <input class="btn btn-warning" type="reset" value="Clear"/>
+                    <div class="content">
+                        <b>Note:</b>
+                        <p>When you are uploading the product, your price <b>cannot be lower 0</b>!</p>
+                        <p>Use a semantic name, don't specify something that doesn't correspond to the product.</p>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-    <h3>Create item</h3>
-
-    <div>
-        <br>
-        <form th:action="@{|/shopping_items/create|}" th:object="${item}" th:method="post" enctype="multipart/form-data">
-
-            <div>
-                <label for="name">Name: </label>
-                <input id="name" type="text" th:field="*{name}" placeholder="Name of thing"/>
-                <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
-            </div>
-            <div>
-                <label for="price">Price: </label>
-                <input id="price" type="number" th:field="*{price}" placeholder="Price"/>
-                <small style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
-            </div>
-            <div>
-                <label for="image">Photo: </label>
-                <input id="image" type="url" name="image" th:field="*{image}" placeholder="Enter URL of picture"/>
-            </div>
-
-            <div>
-                <input type="submit" value="Create"/>
-                <input type="reset" value="Clear"/>
-            </div>
-        </form>
-        <br>
-        <a th:href="@{|/shopping_items/all|}">Back to list</a>
     </div>
+</div>
 </body>
 </html>

@@ -3,7 +3,6 @@ package com.alexvar.springboot_rest.controller;
 import com.alexvar.springboot_rest.model.ShoppingItem;
 import com.alexvar.springboot_rest.services.ShoppingItemService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +18,8 @@ public class ShoppingItemController{
 
     private final ShoppingItemService shoppingItemService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
+//    @Value("${upload.path}")
+//    private String uploadPath;
 
     @Autowired
     public ShoppingItemController(ShoppingItemService shoppingItemService){

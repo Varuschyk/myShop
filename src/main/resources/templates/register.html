@@ -7,47 +7,78 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <title>Registration</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .fullscreen{
+            background-image: url("https://img.freepik.com/free-vector/paper-style-white-monochrome-background_52683-66443.jpg?w=2000");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex: 1 1 auto;
+        }
+
+        .container{
+            display: flex;
+            justify-content: center;
+        }
+
+        .registration-form{
+            width: 400px;
+            max-width: 400px;
+            margin: 5rem;
+            padding: 2rem;
+        }
+    </style>
 </head>
-
 <body>
+<section class="fullscreen">
+    <div class="container">
+        <div class="registration-form">
+            <h1>Registration</h1>
+            <br>
+            <form class="form-control" th:method="POST" th:action="@{/auth/register}" th:object="${user}">
+                <div>
+                    <label for="name">Name: </label>
+                    <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="name"/>
+                    <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                </div>
 
-    <h1>Registration Page</h1>
-    <br>
+                <div>
+                    <label for="surname">Surname: </label>
+                    <input type="text" id="surname" class="form-control" th:field="*{surname}" placeholder="surname"/>
+                    <small style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></small>
+                </div>
 
-    <form th:method="POST" th:action="@{/auth/register}" th:object="${user}">
-        <input type="hidden"/>
+                <div>
+                    <label for="email">E-mail: </label>
+                    <input type="email" id="email" class="form-control" th:field="*{email}" placeholder="Email"/>
+                    <small style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                </div>
 
-        <div>
-            <label for="name">Name: </label>
-            <input type="text" id="name" th:field="*{name}" placeholder="name"/>
-            <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                <div>
+                    <label for="password">Password: </label>
+                    <input type="password" id="password" class="form-control" th:field="*{password}" placeholder="Password"/>
+                    <small style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+                </div>
+
+                <br>
+
+                <button type="submit" class="btn btn-outline-dark">Register</button>
+
+                <div class="info-register"> Have an account?
+                    <a class="registration-button" th:href="@{/auth/login}">Log in</a>
+                </div>
+            </form>
         </div>
-
-        <div>
-            <label for="surname">Surname: </label>
-            <input type="text" id="surname" th:field="*{surname}" placeholder="surname"/>
-            <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></div>
-        </div>
-
-        <div>
-            <label for="email">E-mail: </label>
-            <input type="email" id="email" th:field="*{email}" placeholder="Email"/>
-            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-        </div>
-
-        <div>
-            <label for="password">Password: </label>
-            <input type="password" id="password" th:field="*{password}" placeholder="Password"/>
-            <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-        </div>
-
-        <button type="submit">Register</button>
-
-        <div class="info-register"> Have an account?
-            <a class="registration-button" th:href="@{/auth/login}">Log in</a>
-        </div>
-    </form>
+    </div>
+</section>
 
 </body>
-
 </html>

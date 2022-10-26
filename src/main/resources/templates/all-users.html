@@ -104,9 +104,21 @@
             </form>
         </td>
         <td>
-            <form th:action="@{|/users/update/${user.id}|}">
-                <button class="btn btn-warning">Edit</button>
-            </form>
+            <div th:if="${#request.userPrincipal.name.equals(user.email)}">
+                <form th:action="@{|/users/update/${user.id}|}">
+                    <button class="btn btn-warning">Edit</button>
+                </form>
+            </div>
+            <div th:if="${!#request.userPrincipal.name.equals(user.email) && user.role != #request.userPrincipal.principal.user.role}">
+                <form th:action="@{|/users/update/${user.id}|}">
+                    <button class="btn btn-warning">Edit</button>
+                </form>
+            </div>
+            <div th:if="${!#request.userPrincipal.name.equals(user.email) && user.role == #request.userPrincipal.principal.user.role}">
+                <form th:action="@{|/users/update/${user.id}|}" >
+                    <button class="btn btn-warning" disabled>Edit</button>
+                </form>
+            </div>
         </td>
         <td>
             <form th:action="@{|/users/delete/${user.id}|}">

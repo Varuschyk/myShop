@@ -92,7 +92,12 @@ public class ShoppingItemController{
 
     @PostMapping("/update/{id}")
     @PreAuthorize("hasAuthority('developer:read')")
-    public String update(@ModelAttribute("item") @Valid ShoppingItem item){
+    public String update(@ModelAttribute("item") @Valid ShoppingItem item, BindingResult result){
+
+        if(result.hasErrors()){
+            return "item-update";
+        }
+
         shoppingItemService.update(item);
         return "redirect:/shopping_items/read/{id}";
     }

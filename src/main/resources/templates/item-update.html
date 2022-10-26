@@ -15,6 +15,24 @@
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/a4849091d7.js" crossorigin="anonymous"></script>
     <title>Update item</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            border: 0;
+        }
+
+        .item-update-form{
+            width: 400px;
+            max-width: 500px;
+            padding: 3rem;
+        }
+
+        .container{
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
@@ -60,37 +78,37 @@
     </div>
 </nav>
 
+<div class="container form-control">
+    <div class="item-update-form">
+        <h3>Update item</h3>
+        <form class="form-control" th:action="@{|/shopping_items/update/*{id}|}" th:object="${item}" method="post">
+            <div>
+                <label for="id">Id: </label>
+                <input id="id" class="form-control" type="text" th:field="*{id}" disabled>
+            </div>
+            <div>
+                <label for="name">Name: </label>
+                <input id="name" class="form-control" type="text" th:field="*{name}">
+                <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+            </div>
+            <div>
+                <label for="price">Price: </label>
+                <input id="price" class="form-control" type="number" th:field="*{price}">
+                <small style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+            </div>
+            <div>
+                <label for="image">Price: </label>
+                <input id="image" class="form-control" type="url" th:field="*{image}">
+            </div>
+            <br>
+            <div>
+                <input class="btn btn-success" type="submit" value="Update">
+                <input class="btn btn-warning" type="reset" value="Clear">
 
-    <h3>Update item</h3>
-    <br>
-    <a th:href="@{/home}">Go to home</a>
-    <br>
-    <form th:action="@{|/shopping_items/update/*{id}|}" th:object="${item}" method="post">
-        <div>
-            <label for="id">Id: </label>
-            <input id="id" type="text" th:field="*{id}" disabled>
-        </div>
-        <div>
-            <label for="name">Name: </label>
-            <input id="name" type="text" th:field="*{name}">
-            <small style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
-        </div>
-        <div>
-            <label for="price">Price: </label>
-            <input id="price" type="number" th:field="*{price}">
-            <small style="color:red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
-        </div>
-        <div>
-            <label for="image">Price: </label>
-            <input id="image" type="url" th:field="*{image}">
-        </div>
-        <div>
-            <input type="submit" value="Update">
-            <input type="reset" value="Clear">
-        </div>
-    </form>
-    <br>
-    <a th:href="@{/shopping_items/all}">Go to list</a>
-
+                <a class="btn btn-outline-dark" th:href="@{/shopping_items/all}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>

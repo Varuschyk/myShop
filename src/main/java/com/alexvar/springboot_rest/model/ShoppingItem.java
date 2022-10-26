@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +22,7 @@ public class ShoppingItem {
     private long id;
 
     @Column(name="name")
+    @NotBlank(message = "Field cannot be empty!")
     private String name;
 
     @Column(name="price")

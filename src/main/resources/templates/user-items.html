@@ -12,9 +12,6 @@
             crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/a4849091d7.js" crossorigin="anonymous"></script>
     <title>Items</title>
-
-
-
 </head>
 <body>
 <nav class="navbar navbar-dark bg-dark navbar-expand-sm">
@@ -118,7 +115,37 @@
             <br>
             <br>
             <div class="text-center">
-                <button class="btn btn-success" type="submit">Proceed to checkout</button>
+                <button class="btn btn-success" type="button" data-bs-toggle="modal"
+                data-bs-target="#modal-cart">Proceed to checkout</button>
+            </div>
+
+            <div class="modal fade" id="modal-cart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-dark text-white">
+                            <h5 class="modal-title" id="exampleModalLabel">Your purchases</h5>
+                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                        <div class="modal-body">
+                            <table class="table">
+                                <tbody>
+                                    <tr th:each="item, temp : ${user.getStuffList()}">
+                                        <th th:scope="row" th:text="${temp.index + 1}"/>
+                                        <td><a th:href="@{|/shopping_items/read/${item.id}|}" th:text="${item.name}"></a></td>
+                                        <td th:text="${item.price}"/>
+                                        <td><img th:src="${item.image}" width="100" height="100"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success">Pay</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

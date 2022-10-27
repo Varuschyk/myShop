@@ -1,20 +1,26 @@
 package com.alexvar.springboot_rest.configuration.security;
 
 
+import com.alexvar.springboot_rest.repositories.UserRepository;
+import com.alexvar.springboot_rest.security.SecurityUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 
 
 @Configuration
@@ -22,11 +28,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+    private final static Logger log = LoggerFactory.getLogger(SecurityConfig.class);
+
     private final UserDetailsService userDetailsService;
+    private static UserRepository userRepository = null;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    public SecurityConfig(UserDetailsService userDetailsService, UserRepository userRepository) {
         this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -69,5 +79,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         return daoAuthenticationProvider;
+    }
+
+    public static void checkOwner(long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityUser principal = (SecurityUser) authentication.getPrincipal();
+
+        if((!principal.getUser().getRole().name().equals("ADMIN") && (principal.getUser().getId() != id)) ||
+                (principal.getUser().getRole().name().equals("ADMIN") && (userRepository.findById(id).get().getRole().name().equals("ADMIN")))){
+                log.error("Access denied for user {}. Try to interact user with id {}", principal.getUser().getEmail(), id);
+            throw new AccessDeniedException("Access denied");
+        }
+
     }
 }

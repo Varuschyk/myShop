@@ -1,14 +1,10 @@
 package com.alexvar.springboot_rest.model;
 
 import lombok.*;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
-import java.security.Principal;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -51,6 +47,16 @@ public class User {
     joinColumns = @JoinColumn(name="user_id"),
     inverseJoinColumns = @JoinColumn(name="item_id"))
     private Set<ShoppingItem> stuffList;
+
+    public User(long id, String name, String surname, String password, String email, Role role, Set<ShoppingItem> stuffList) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.stuffList = stuffList;
+    }
 
     public String getFullName() {return name + ' ' + surname;}
 

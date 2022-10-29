@@ -21,6 +21,24 @@ public class ApplicationExceptionHandler {
         return modelAndView;
     }
 
+    @ExceptionHandler(ShoppingItemNotFoundException.class)
+    public ModelAndView handleShoppingItemNotFoundException(Exception exception,
+                                                    HttpServletRequest request, HttpServletResponse response){
+        ModelAndView modelAndView = new ModelAndView("404", HttpStatus.NOT_FOUND);
+        modelAndView.addObject("info", exception.getMessage());
+
+        return modelAndView;
+    }
+
+    @ExceptionHandler(ShoppingItemExistsException.class)
+    public ModelAndView handleShoppingItemExistsException(Exception exception,
+                                                          HttpServletRequest request, HttpServletResponse response){
+        ModelAndView modelAndView = new ModelAndView("400", HttpStatus.BAD_REQUEST);
+        modelAndView.addObject("info", exception.getMessage());
+
+        return modelAndView;
+    }
+
     @ExceptionHandler(NullEntityException.class)
     public ModelAndView handleNullEntityException(Exception exception,
                                                   HttpServletRequest request, HttpServletResponse response){

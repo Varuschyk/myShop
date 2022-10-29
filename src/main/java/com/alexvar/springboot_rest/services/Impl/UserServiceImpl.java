@@ -10,22 +10,23 @@ import com.alexvar.springboot_rest.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.nio.file.AccessDeniedException;
 import java.util.List;
+
+import static com.alexvar.springboot_rest.SpringbootRestApplication.passwordEncoder;
 
 @Service
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    public UserServiceImpl(UserRepository userRepository){
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -33,11 +34,7 @@ public class UserServiceImpl implements UserService{
         if(userRepository.findUserByEmail(user.getEmail()).isPresent()) {
             log.warn("User with id {} already exists", user.getId());
             throw new UserExistsException("User already exists!");
-        }else if(user == null){
-            log.warn("User with id {} is null", user.getId());
-            throw new NullEntityException("User is null!");
         }
-
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setRole(Role.USER);
             log.trace("User with id {} saved", user.getId());
@@ -58,7 +55,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public User update(User user) {
         if(user == null){
-            log.warn("User with id {} is null", user.getId());
+            log.warn("User is null");
             throw new NullEntityException("User is null!");
         }
         User newEmp = userRepository.findById(user.getId()).get();

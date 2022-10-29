@@ -1,6 +1,9 @@
 package com.alexvar.springboot_rest.services.Impl;
 
 import com.alexvar.springboot_rest.exception.NullEntityException;
+import com.alexvar.springboot_rest.exception.ShoppingItemExistsException;
+import com.alexvar.springboot_rest.exception.ShoppingItemNotFoundException;
+import com.alexvar.springboot_rest.exception.UserNotFoundException;
 import com.alexvar.springboot_rest.model.ShoppingItem;
 import com.alexvar.springboot_rest.repositories.ShoppingItemRepository;
 import com.alexvar.springboot_rest.services.ShoppingItemService;
@@ -26,6 +29,11 @@ public class ShoppingItemServiceImpl implements ShoppingItemService {
 
     @Override
     public ShoppingItem create(ShoppingItem shoppingItem) {
+        if(shoppingItemRepository.findShoppingItemByName(shoppingItem.getName()).isPresent()){
+            log.warn("Item with id {} already exists", shoppingItem.getId());
+            throw new ShoppingItemExistsException("Item already exists!");
+        }
+
         log.trace("Item with id {} saved", shoppingItem.getId());
         return shoppingItemRepository.save(shoppingItem);
     }
@@ -37,7 +45,7 @@ public class ShoppingItemServiceImpl implements ShoppingItemService {
             return shoppingItemRepository.findById(id).get();
         }else{
             log.warn("Item with id {} not found!", id);
-            throw new NullEntityException("Item not found!");
+            throw new ShoppingItemNotFoundException("Item not found!");
         }
     }
 
@@ -47,8 +55,6 @@ public class ShoppingItemServiceImpl implements ShoppingItemService {
             log.warn("Item with id {} not found!", shoppingItem.getId());
             throw new NullEntityException("Item is null!");
         }
-
-        System.out.println(shoppingItem);
 
         ShoppingItem newItem = shoppingItemRepository.findById(shoppingItem.getId()).get();
         newItem.setName(shoppingItem.getName());
@@ -61,12 +67,22 @@ public class ShoppingItemServiceImpl implements ShoppingItemService {
 
     @Override
     public void delete(long id) {
+        if(!shoppingItemRepository.existsById(id)){
+            log.warn("Item with id {} not found", id);
+            throw new ShoppingItemNotFoundException("Item not found!");
+        }
+
         log.trace("Item with id {} successfully deleted", id);
         shoppingItemRepository.deleteById(id);
     }
 
     @Override
     public List<ShoppingItem> getAll() {
+        if(shoppingItemRepository.findAll().isEmpty()){
+            log.warn("Items not found");
+            throw new ShoppingItemNotFoundException("Items not found!");
+        }
+
         log.trace("Get all items from the DB");
         return shoppingItemRepository.findAll();
     }

@@ -99,9 +99,23 @@
         </td>
 
         <td>
-            <form th:action="@{|/users/read/${user.id}|}">
-                <button style="color:white" class="btn btn-info">Info</button>
-            </form>
+            <div th:if="${#request.userPrincipal.name.equals(user.email)}">
+                <form th:action="@{|/users/read/${user.id}|}">
+                    <button style="color:white" class="btn btn-info">Info</button>
+                </form>
+            </div>
+
+            <div th:if="${!#request.userPrincipal.name.equals(user.email) && user.role != #request.userPrincipal.principal.user.role}">
+                <form th:action="@{|/users/read/${user.id}|}">
+                    <button style="color:white" class="btn btn-info">Info</button>
+                </form>
+            </div>
+
+            <div th:if="${!#request.userPrincipal.name.equals(user.email) && user.role == #request.userPrincipal.principal.user.role}">
+                <form th:action="@{|/users/read/${user.id}|}">
+                    <button style="color:white" class="btn btn-info" disabled>Info</button>
+                </form>
+            </div>
         </td>
         <td>
             <div th:if="${#request.userPrincipal.name.equals(user.email)}">
@@ -121,9 +135,23 @@
             </div>
         </td>
         <td>
+            <div th:if="${#request.userPrincipal.name.equals(user.email)}">
+                <form th:action="@{|/users/delete/${user.id}|}">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+
+            <div th:if="${!#request.userPrincipal.name.equals(user.email) && user.role != #request.userPrincipal.principal.user.role}">
+                <form th:action="@{|/users/delete/${user.id}|}">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+
+            <div th:if="${!#request.userPrincipal.name.equals(user.email) && user.role == #request.userPrincipal.principal.user.role}">
             <form th:action="@{|/users/delete/${user.id}|}">
-                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-danger" disabled>Delete</button>
             </form>
+            </div>
         </td>
     </tr>
     </tbody>

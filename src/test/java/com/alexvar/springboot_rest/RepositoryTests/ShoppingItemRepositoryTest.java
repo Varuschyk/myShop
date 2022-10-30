@@ -1,4 +1,4 @@
-package com.alexvar.springboot_rest.RepositoryTests.ShoppingItemRepositoryTests;
+package com.alexvar.springboot_rest.RepositoryTests;
 
 import com.alexvar.springboot_rest.model.ShoppingItem;
 import com.alexvar.springboot_rest.repositories.ShoppingItemRepository;

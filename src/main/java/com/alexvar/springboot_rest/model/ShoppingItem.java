@@ -30,7 +30,7 @@ public class ShoppingItem {
     private double price;
 
     @Column(name="image")
-    private String image;
+    private String image; //need implement uploading media
 
     @Column(name="created_at")
     private LocalDateTime createdAt = LocalDateTime.now();

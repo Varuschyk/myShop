@@ -1,4 +1,4 @@
-package com.alexvar.springboot_rest.ServiceTests.ShoppingItemServiceTests;
+package com.alexvar.springboot_rest.ServiceTests;
 
 import com.alexvar.springboot_rest.exception.ShoppingItemExistsException;
 import com.alexvar.springboot_rest.exception.ShoppingItemNotFoundException;

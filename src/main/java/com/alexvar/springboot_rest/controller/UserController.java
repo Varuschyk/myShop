@@ -76,7 +76,7 @@ public class UserController {
     }
 
     @GetMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('developer:write')")
+    @PreAuthorize("hasAuthority('developer:read')")
     public String update(@PathVariable(value="id") long id, Model model){
         SecurityConfig.checkOwner(id);
         User oldUser = userService.readById(id);
@@ -86,7 +86,7 @@ public class UserController {
     }
 
     @PostMapping("/update/{id}")
-    @PreAuthorize("hasAuthority('developer:write')")
+    @PreAuthorize("hasAuthority('developer:read')")
     public String update(@ModelAttribute(value = "user") @Valid User user, BindingResult result,
                          @PathVariable(value="id") long id, Model model, Principal principal){
         SecurityConfig.checkOwner(id);

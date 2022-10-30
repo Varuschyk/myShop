@@ -1,6 +1,7 @@
 package com.alexvar.springboot_rest.configuration.security;
 
 
+import com.alexvar.springboot_rest.exception.UserNotFoundException;
 import com.alexvar.springboot_rest.repositories.UserRepository;
 import com.alexvar.springboot_rest.security.SecurityUser;
 import org.slf4j.Logger;
@@ -86,10 +87,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         SecurityUser principal = (SecurityUser) authentication.getPrincipal();
 
         if((!principal.getUser().getRole().name().equals("ADMIN") && (principal.getUser().getId() != id)) ||
-                (principal.getUser().getRole().name().equals("ADMIN") && (userRepository.findById(id).get().getRole().name().equals("ADMIN")))){
+                (principal.getUser().getRole().name().equals("ADMIN") && (userRepository.findById(id).orElseThrow(UserNotFoundException::new).getRole().name().equals("ADMIN")) && (principal.getUser().getId() != id))){
                 log.error("Access denied for user {}. Try to interact user with id {}", principal.getUser().getEmail(), id);
             throw new AccessDeniedException("Access denied");
         }
-
     }
+
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
+//        UserDetails user = User.withUsername("Ria")
+//                .password(passwordEncoder.encode("1234"))
+//                .authorities(Role.ADMIN.getAuthorities())
+//                .build();
+//        return new InMemoryUserDetailsManager(user);
+//    }
 }

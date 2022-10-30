@@ -1,4 +1,4 @@
-package com.alexvar.springboot_rest.RepositoryTests.UserRepositoryTests;
+package com.alexvar.springboot_rest.RepositoryTests;
 
 import com.alexvar.springboot_rest.model.*;
 import com.alexvar.springboot_rest.repositories.UserRepository;

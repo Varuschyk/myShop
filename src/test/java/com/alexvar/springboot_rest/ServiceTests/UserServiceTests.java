@@ -1,4 +1,4 @@
-package com.alexvar.springboot_rest.ServiceTests.UserServiceTests;
+package com.alexvar.springboot_rest.ServiceTests;
 
 import com.alexvar.springboot_rest.exception.UserExistsException;
 import com.alexvar.springboot_rest.exception.UserNotFoundException;

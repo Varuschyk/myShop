@@ -1,5 +1,6 @@
 package com.alexvar.springboot_rest.model;
 
+import com.alexvar.springboot_rest.SpringbootRestApplication;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,7 +43,7 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name="stuff_list",
     joinColumns = @JoinColumn(name="user_id"),
     inverseJoinColumns = @JoinColumn(name="item_id"))
@@ -52,7 +53,7 @@ public class User {
         this.id = id;
         this.name = name;
         this.surname = surname;
-        this.password = password;
+        this.password = SpringbootRestApplication.passwordEncoder.encode(password);
         this.email = email;
         this.role = role;
         this.stuffList = stuffList;

@@ -7,7 +7,6 @@ import com.alexvar.springboot_rest.repositories.ShoppingItemRepository;
 import com.alexvar.springboot_rest.repositories.UserRepository;
 import com.alexvar.springboot_rest.security.SecurityUser;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,11 +15,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -48,6 +46,7 @@ class UserControllerTests {
     @BeforeEach
     public void init(){
         mockMvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+        setupShoppingItems();
     }
 
     private User setupAdminUser(){
@@ -62,6 +61,24 @@ class UserControllerTests {
              "$2a$12$KsVy57HckgKGZ63rIYwrLODhkHSSv1nWx5K.gIdUyJrBlYjqbGnFa",
              "bogdanRud@gmail.com", Role.USER, new HashSet<>());
      return userRepository.save(user);
+    }
+
+    private void setupShoppingItems(){
+        ShoppingItem item1 = new ShoppingItem();
+        item1.setId(1L);
+        item1.setName("Fridge");
+        item1.setPrice(500);
+        item1.setCreatedAt(LocalDateTime.now());
+
+        shoppingItemRepository.save(item1);
+
+        ShoppingItem item2 = new ShoppingItem();
+        item2.setId(2L);
+        item2.setName("Microwave");
+        item2.setPrice(500);
+        item2.setCreatedAt(LocalDateTime.now());
+
+        shoppingItemRepository.save(item2);
     }
 
     @Test
@@ -181,8 +198,8 @@ class UserControllerTests {
         mockMvc.perform(get("/users/update/1")
                 .with(user(new SecurityUser(setupSimpleUser()))))
                 .andExpect(model().attributeExists("user"))
-                .andExpect(model().attributeHasNoErrors())
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("user-update"));
     }
 
     @Test
@@ -275,19 +292,13 @@ class UserControllerTests {
     }
 
     @Test
-    @Disabled("something wrong")
     void read_User_Shopping_Items_Success_2xx() throws Exception {
-//        User user = new User(2, "Michel", "Jackson",
-//                "$2a$12$KsVy57HckgKGZ63rIYwrLODhkHSSv1nWx5K.gIdUyJrBlYjqbGnFa",
-//                "michelJackson@gmail.com", Role.ADMIN, new HashSet<>());
-//
-//        userRepository.save(user);
-
         mockMvc.perform(get("/users/1/items")
                 .with(user(new SecurityUser(setupSimpleUser()))))
                 .andExpect(model().attributeHasNoErrors())
                 .andExpect(model().hasNoErrors())
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("user-items"));
     }
 
     @Test

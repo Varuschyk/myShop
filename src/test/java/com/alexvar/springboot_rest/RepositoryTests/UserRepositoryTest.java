@@ -1,11 +1,14 @@
 package com.alexvar.springboot_rest.RepositoryTests;
 
+import com.alexvar.springboot_rest.exception.UserNotFoundException;
 import com.alexvar.springboot_rest.model.*;
 import com.alexvar.springboot_rest.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.HashSet;
 
@@ -26,7 +29,7 @@ class UserRepositoryTest {
         userRepository.save(user);
 
 
-        User result = userRepository.findUserByEmail(user.getEmail()).get();
+        User result = userRepository.findUserByEmail(user.getEmail()).orElseThrow(UserNotFoundException::new);
 
 
         assertThat(result.getEmail()).isEqualTo(user.getEmail());
